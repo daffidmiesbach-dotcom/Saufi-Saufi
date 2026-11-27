@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saufi Saufi – Abend beitreten</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #14120c;
+      color: #f3ece1;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      max-width: 340px;
+      width: 100%;
+      background: #231f17;
+      border-radius: 18px;
+      padding: 28px 24px;
+    }
+    h1 { margin: 0 0 8px; font-size: 24px; }
+    p { margin: 0 0 20px; color: #c7bfb2; font-size: 15px; }
+    .code {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      background: #3b321c;
+      color: #f3d58d;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: block;
+      background: #e3c16f;
+      color: #241a00;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Saufi Saufi</h1>
+    <p id="status">Öffne deinen Abend in der App…</p>
+    <div id="codeBox" class="code" style="display:none;"></div>
+    <a id="openBtn" class="btn" href="#" style="display:none;">In Saufi Saufi öffnen</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('code') || '';
+    const code = raw.replace(/\D/g, '');
+
+    if (/^\d{6}$/.test(code)) {
+      const formatted = code.slice(0, 3) + ' ' + code.slice(3);
+      const appUrl = 'saufisaufi://join/' + code;
+
+      const codeBox = document.getElementById('codeBox');
+      codeBox.textContent = formatted;
+      codeBox.style.display = 'block';
+
+      const btn = document.getElementById('openBtn');
+      btn.href = appUrl;
+      btn.style.display = 'block';
+
+      window.location.href = appUrl;
+    } else {
+      document.getElementById('status').textContent =
+        'Kein gültiger 6-stelliger Beitrittscode im Link gefunden.';
+    }
+  </script>
+</body>
+</html>
